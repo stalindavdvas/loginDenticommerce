@@ -14,9 +14,9 @@ SECRET_KEY = 'mi_clave_secreta'
 # Configuración de la conexión a la base de datos MySQL
 def get_db_connection():
     connection = mysql.connector.connect(
-        host='localhost',
-        user='root',  # Cambia por tu usuario de MySQL
-        password='',  # Cambia por tu contraseña de MySQL
+        host='100.25.208.238',
+        user='stalin',  # Cambia por tu usuario de MySQL
+        password='stalin',  # Cambia por tu contraseña de MySQL
         database='autenticacion'  # Nombre de tu base de datos
     )
     return connection
@@ -135,4 +135,4 @@ def protected():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0')
