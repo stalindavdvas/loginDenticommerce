@@ -105,13 +105,27 @@ def login():
     user = cursor.fetchone()
 
     if user and check_password(user['password'], password):  # Verificamos la contraseña hasheada
+        # Generar el token JWT con información adicional (username y role)
         token = jwt.encode(
-            {'username': username, 'role': user['role'],
-             'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)},
-            SECRET_KEY, algorithm="HS256")
+            {
+                'username': user['username'],
+                'role': user['role'],
+                'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=1)
+            },
+            SECRET_KEY,
+            algorithm="HS256"
+        )
         cursor.close()
         conn.close()
-        return jsonify({'token': token})
+
+        # Devolver el token y los datos del usuario
+        return jsonify({
+            'token': token,
+            'user': {
+                'username': user['username'],
+                'role': user['role']
+            }
+        }), 200
 
     cursor.close()
     conn.close()
